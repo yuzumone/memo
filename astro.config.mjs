@@ -1,0 +1,59 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight';
+import starlightSiteGraph from 'starlight-site-graph'
+import path from 'node:path';
+import fg from 'fast-glob';
+import remarkLinkResolver from './tools/remark-link-resolver.js';
+
+const contentDir = 'src/content/docs';
+const allContentFiles = fg.sync(`${contentDir}/**/*.{md,mdx}`);
+// Create a map of { 'filename.md': '/slug/for/that/file' }
+const fileNameToSlugMap = new Map();
+for (const file of allContentFiles) {
+    const fileInfo = path.parse(file);
+    // The slug is the path relative to the contentDir, without the .md/.mdx extension
+    const slug = '/' + path.relative(contentDir, file).replace(/\.(md|mdx)$/, '');
+    // Add keys for the filename both with and without the extension
+    fileNameToSlugMap.set(fileInfo.base, slug); // e.g., "my-file.md" -> "/slug/my-file"
+    fileNameToSlugMap.set(fileInfo.name, slug); // e.g., "my-file" -> "/slug/my-file"
+}
+
+export default defineConfig({
+    devToolbar: { enabled: false },
+    site: 'https://garden.yuzumone.net',
+    integrations: [starlight({
+        title: 'memos',
+        logo: {
+          src: './src/assets/logo.webp',
+        },
+        plugins: [starlightSiteGraph()],
+        pagination: false,
+        customCss: [
+            '@fontsource/ibm-plex-sans-jp',
+            '@fontsource/ibm-plex-mono',
+            './src/styles/custom.css',
+        ],
+        routeMiddleware: './src/routeData.ts',
+        head: [
+            {
+              tag: 'meta',
+              attrs: {
+                  name: 'Hatena::Bookmark',
+                  content: 'nocomment',
+              },
+            },
+        ],
+     })],
+     markdown: {
+        remarkPlugins: [
+            // Pass the file map to our custom resolver plugin
+            [remarkLinkResolver, { fileMap: fileNameToSlugMap }]
+        ],
+     },
+     vite: {
+        define: {
+            'process.env.NODE_ENV': JSON.stringify(import.meta.env.MODE),
+        },
+    },
+});
