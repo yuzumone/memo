@@ -5,6 +5,7 @@ import starlightSiteGraph from 'starlight-site-graph'
 import path from 'node:path';
 import fg from 'fast-glob';
 import remarkLinkResolver from './tools/remark-link-resolver.js';
+import { stripNumericPrefix } from './src/utils.ts';
 
 const contentDir = 'src/content/docs';
 const allContentFiles = fg.sync(`${contentDir}/**/*.{md,mdx}`);
@@ -13,7 +14,8 @@ const fileNameToSlugMap = new Map();
 for (const file of allContentFiles) {
     const fileInfo = path.parse(file);
     // The slug is the path relative to the contentDir, without the .md/.mdx extension
-    const slug = '/' + path.relative(contentDir, file).replace(/\.(md|mdx)$/, '');
+    const withoutExt = '/' + path.relative(contentDir, file).replace(/\.(md|mdx)$/, '');
+    const slug = withoutExt.split('/').map(stripNumericPrefix).join('/');
     // Add keys for the filename both with and without the extension
     fileNameToSlugMap.set(fileInfo.base, slug); // e.g., "my-file.md" -> "/slug/my-file"
     fileNameToSlugMap.set(fileInfo.name, slug); // e.g., "my-file" -> "/slug/my-file"
@@ -21,7 +23,7 @@ for (const file of allContentFiles) {
 
 export default defineConfig({
     devToolbar: { enabled: false },
-    site: 'https://garden.yuzumone.net',
+    site: 'https://memo.yuzumone.net',
     integrations: [starlight({
         title: 'memos',
         logo: {
@@ -51,9 +53,4 @@ export default defineConfig({
             [remarkLinkResolver, { fileMap: fileNameToSlugMap }]
         ],
      },
-     vite: {
-        define: {
-            'process.env.NODE_ENV': JSON.stringify(import.meta.env.MODE),
-        },
-    },
 });

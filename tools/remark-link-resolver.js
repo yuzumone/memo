@@ -46,9 +46,10 @@ export default function remarkLinkResolver(options) {
         const slug = fileMap.get(fileName);
 
         if (slug) {
+          const finalUrl = slug.startsWith('/') ? slug : `/${slug}`;
           newChildren.push({
             type: 'link',
-            url: slug,
+            url: finalUrl,
             children: [{ type: 'text', value: linkText }],
           });
         } else {
@@ -67,7 +68,7 @@ export default function remarkLinkResolver(options) {
       if (lastIndex === 0) {
         return;
       }
-  
+
       // 3. Add any remaining text after the last match
       if (text.length > lastIndex) {
         newChildren.push({
