@@ -27,7 +27,7 @@ export default defineConfig({
     integrations: [starlight({
         title: 'memos',
         logo: {
-          src: './src/assets/logo.webp',
+            src: './src/assets/logo.webp',
         },
         plugins: [starlightSiteGraph()],
         pagination: false,
@@ -39,18 +39,35 @@ export default defineConfig({
         routeMiddleware: './src/routeData.ts',
         head: [
             {
-              tag: 'meta',
-              attrs: {
-                  name: 'Hatena::Bookmark',
-                  content: 'nocomment',
-              },
+                tag: 'meta',
+                attrs: {
+                    name: 'Hatena::Bookmark',
+                    content: 'nocomment',
+                },
+            },
+            {
+                tag: 'meta',
+                attrs: {
+                    name: 'robots',
+                    content: "noindex, nofollow",
+                },
             },
         ],
-     })],
-     markdown: {
+        sidebar: [
+            { label: 'Home', link: '/' },
+            {
+                label: 'Articles',
+                autogenerate: { directory: 'articles' },
+                collapsed: true,
+            },
+        ],
+        expressiveCode: {
+            frames: false,
+        },
+    })],
+    markdown: {
         remarkPlugins: [
-            // Pass the file map to our custom resolver plugin
             [remarkLinkResolver, { fileMap: fileNameToSlugMap }]
         ],
-     },
+    },
 });
