@@ -36,6 +36,9 @@ export default defineConfig({
             '@fontsource/ibm-plex-mono',
             './src/styles/custom.css',
         ],
+        components: {
+            PageTitle: './src/components/PageTitle.astro',
+        },
         routeMiddleware: './src/routeData.ts',
         head: [
             {

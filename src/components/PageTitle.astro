@@ -1,0 +1,33 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const data = Astro.locals.starlightRoute.entry.data ?? {};
+const publishedDate = data.date;
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+{publishedDate && (
+    <div class="article-meta">
+        <span class="article-date">
+        Published on{' '}
+          {new Date(publishedDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </span>
+    </div>
+)}
+
+<style>
+  .article-meta {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .article-date {
+    color: var(--sl-color-gray-3);
+  }
+</style>
