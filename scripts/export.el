@@ -14,7 +14,7 @@
 ;;; roam
 (setopt org-roam-db-location "./org-roam.db")
 (setopt org-id-locations-file "./.org-id-locations")
-(setopt org-roam-directory (expand-file-name "org/roam" (getenv "HOME")))
+(setopt org-roam-directory (expand-file-name "org/roam" default-directory))
 (org-roam-db-sync)
 
 ;;; ox-hugo
