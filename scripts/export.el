@@ -5,8 +5,8 @@
 (package-refresh-contents)
 (package-initialize)
 (dolist (pkg '(org org-roam ox-hugo))
-    (unless (package-installed-p pkg)
-      (package-install pkg)))
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
 
 (require 'org-roam)
 (require 'ox-hugo)
@@ -32,10 +32,14 @@
           (message (concat "backlink: " (org-roam-node-title (org-roam-backlink-source-node backlink))))
           (let* ((source-node (org-roam-backlink-source-node backlink))
                  (node-file (org-roam-node-file source-node))
+                 (node-properties (org-roam-node-properties source-node))
+                 (export-file-name (alist-get "EXPORT_FILE_NAME" node-properties nil nil #'string-equal))
                  (file-name (file-name-nondirectory node-file))
-                 (title (org-roam-node-title source-node)))
-            (insert
-             (format "- [[./%s][%s]]\n" file-name title))))))))
+                 (title (org-roam-node-title source-node))
+                 (link-target (if export-file-name
+                                  (format "./%s.org" export-file-name)
+                                (format "./%s" file-name))))
+            (insert (format "- [[%s][%s]]\n" link-target title))))))))
 
 (defun export-all (&optional org-files-root-dir dont-recurse)
   "Export all Org files"

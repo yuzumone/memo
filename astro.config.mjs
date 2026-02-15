@@ -63,6 +63,34 @@ export default defineConfig({
                 autogenerate: { directory: 'articles' },
                 collapsed: true,
             },
+            {
+                label: 'Disney',
+                collapsed: true,
+                items: [
+                    {
+                        label: 'Parks',
+                        autogenerate: { directory: 'disney/parks' },
+                        collapsed: true,
+                    },
+                    {
+                        label: 'Areas',
+                        autogenerate: { directory: 'disney/areas' },
+                        collapsed: true,
+                    },
+                    {
+                        label: 'Attractions',
+                        autogenerate: { directory: 'disney/attractions' },
+                        collapsed: true,
+                    },
+                    {
+                        label: 'Events',
+                        autogenerate: { directory: 'disney/events' },
+                        collapsed: true,
+                    },
+
+                    { label: 'Pins', link: '/disney/tokyo_disney_resort_pins' },
+                ],
+            },
         ],
         expressiveCode: {
             frames: false,
