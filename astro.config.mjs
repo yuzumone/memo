@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph'
+import starlightImageZoome from 'starlight-image-zoom'
 import path from 'node:path';
 import fg from 'fast-glob';
 import remarkLinkResolver from './tools/remark-link-resolver.js';
@@ -29,7 +30,12 @@ export default defineConfig({
         logo: {
             src: './src/assets/logo.webp',
         },
-        plugins: [starlightSiteGraph()],
+        plugins: [
+            starlightSiteGraph(),
+            starlightImageZoome({
+                showCaptions: false,
+            }),
+        ],
         pagination: false,
         customCss: [
             '@fontsource/ibm-plex-sans-jp',
