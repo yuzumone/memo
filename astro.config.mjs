@@ -28,7 +28,7 @@ export default defineConfig({
     integrations: [starlight({
         title: 'memos',
         logo: {
-            src: './src/assets/logo.webp',
+            src: './src/assets/logo.svg',
         },
         plugins: [
             starlightSiteGraph(),
