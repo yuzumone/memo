@@ -3,37 +3,21 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph'
 import starlightImageZoome from 'starlight-image-zoom'
-import path from 'node:path';
-import fg from 'fast-glob';
-import remarkLinkResolver from './tools/remark-link-resolver.js';
-import { stripNumericPrefix } from './src/utils.ts';
-
-const contentDir = 'src/content/docs';
-const allContentFiles = fg.sync(`${contentDir}/**/*.{md,mdx}`);
-// Create a map of { 'filename.md': '/slug/for/that/file' }
-const fileNameToSlugMap = new Map();
-for (const file of allContentFiles) {
-    const fileInfo = path.parse(file);
-    // The slug is the path relative to the contentDir, without the .md/.mdx extension
-    const withoutExt = '/' + path.relative(contentDir, file).replace(/\.(md|mdx)$/, '');
-    const slug = withoutExt.split('/').map(stripNumericPrefix).join('/');
-    // Add keys for the filename both with and without the extension
-    fileNameToSlugMap.set(fileInfo.base, slug); // e.g., "my-file.md" -> "/slug/my-file"
-    fileNameToSlugMap.set(fileInfo.name, slug); // e.g., "my-file" -> "/slug/my-file"
-}
+import starlightObsidian, { obsidianSidebarEntries } from 'starlight-obsidian'
 
 export default defineConfig({
     devToolbar: { enabled: false },
     site: 'https://memo.yuzumone.net',
     integrations: [starlight({
-        title: 'memos',
-        logo: {
-            src: './src/assets/logo.svg',
-        },
+        title: '🌱',
         plugins: [
             starlightSiteGraph(),
             starlightImageZoome({
                 showCaptions: false,
+            }),
+            starlightObsidian({
+                vault: './Vault/',
+                copyFrontmatter: 'all',
             }),
         ],
         pagination: false,
@@ -46,6 +30,7 @@ export default defineConfig({
             PageTitle: './src/components/PageTitle.astro',
         },
         routeMiddleware: './src/routeData.ts',
+        favicon: 'favicon.ico',
         head: [
             {
                 tag: 'meta',
@@ -66,45 +51,12 @@ export default defineConfig({
             { label: 'Home', link: '/' },
             {
                 label: 'Articles',
-                autogenerate: { directory: 'articles' },
                 collapsed: true,
-            },
-            {
-                label: 'Disney',
-                collapsed: true,
-                items: [
-                    {
-                        label: 'Parks',
-                        autogenerate: { directory: 'disney/parks' },
-                        collapsed: true,
-                    },
-                    {
-                        label: 'Areas',
-                        autogenerate: { directory: 'disney/areas' },
-                        collapsed: true,
-                    },
-                    {
-                        label: 'Attractions',
-                        autogenerate: { directory: 'disney/attractions' },
-                        collapsed: true,
-                    },
-                    {
-                        label: 'Events',
-                        autogenerate: { directory: 'disney/events' },
-                        collapsed: true,
-                    },
-
-                    { label: 'Pins', link: '/disney/tokyo_disney_resort_pins' },
-                ],
+                items: [{ autogenerate: { directory: 'notes/articles' } }],
             },
         ],
         expressiveCode: {
             frames: false,
         },
     })],
-    markdown: {
-        remarkPlugins: [
-            [remarkLinkResolver, { fileMap: fileNameToSlugMap }]
-        ],
-    },
 });

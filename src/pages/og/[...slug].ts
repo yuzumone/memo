@@ -20,7 +20,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       title: page.data.title,
       description: page.data.description,
       logo: {
-        path: './src/assets/logo_small.webp',
+        path: './src/assets/logo.webp',
       },
       font: {
         title: {
@@ -31,8 +31,8 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         },
       },
       fonts: [
-        'https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-sans-jp@latest/japanese-400-normal.woff2',
-        'https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-sans-jp@latest/japanese-600-normal.woff2',
+        './node_modules/@fontsource/ibm-plex-sans-jp/files/ibm-plex-sans-jp-japanese-400-normal.woff2',
+        './node_modules/@fontsource/ibm-plex-sans-jp/files/ibm-plex-sans-jp-japanese-600-normal.woff2',
       ],
       bgImage: {
         path: './src/assets/og.png',
