@@ -20,6 +20,8 @@
     "starlight-site-graph": "^0.5.0"
   },
   "overrides": {
-    "picomatch": "^4.0.3"
+    "astro-integration-kit": "^0.20.0",
+    "picomatch": "^4.0.4",
+    "rollup": "^4.62.0"
   }
 }
