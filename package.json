@@ -10,18 +10,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.39.0",
+    "@astrojs/starlight": "^0.37.5",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans-jp": "^5.2.8",
-    "astro": "^6.0.0",
+    "astro": "^5.6.1",
     "astro-og-canvas": "^0.10.1",
+    "fast-glob": "^3.3.3",
+    "sharp": "^0.34.2",
     "starlight-image-zoom": "^0.13.2",
-    "starlight-obsidian": "^0.13.0",
     "starlight-site-graph": "^0.5.0"
   },
   "overrides": {
-    "astro-integration-kit": "^0.20.0",
-    "picomatch": "^4.0.4",
-    "rollup": "^4.62.0"
+    "picomatch": "^4.0.3"
   }
 }

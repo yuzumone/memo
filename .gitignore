@@ -21,5 +21,7 @@ pnpm-debug.log*
 .DS_Store
 
 # content
-/Vault
-/src/content/docs/notes
+src/content/**/*.md
+src/content/**/*.mdx
+
+org-roam.db

@@ -1,13 +1,13 @@
-.PHONY: install preview clean
+.PHONY: markdown preview clean
 
-install:
-	npm ci
+markdown:
+	emacs -Q --batch --load scripts/export.el --funcall export-to-starlight
 
-dist: clean install
+dist: clean markdown
 	npm run build
 
 preview: dist
 	npm run preview
 
 clean:
-	find src/content/docs/notes -type f -name '*.md' -delete
+	find src/content/docs -type f -name '*.md' -delete
