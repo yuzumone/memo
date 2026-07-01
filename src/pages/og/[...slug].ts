@@ -20,7 +20,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       title: page.data.title,
       description: page.data.description,
       logo: {
-        path: './src/assets/logo_small.webp',
+        path: './src/assets/logo.webp',
       },
       font: {
         title: {

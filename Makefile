@@ -1,9 +1,12 @@
-.PHONY: markdown preview clean
+.PHONY: install markdown preview clean
+
+install:
+	npm ci
 
 markdown:
 	emacs -Q --batch --load scripts/export.el --funcall export-to-starlight
 
-dist: clean markdown
+dist: clean markdown install
 	npm run build
 
 preview: dist

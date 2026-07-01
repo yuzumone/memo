@@ -25,3 +25,4 @@ src/content/**/*.md
 src/content/**/*.mdx
 
 org-roam.db
+/org

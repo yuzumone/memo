@@ -26,10 +26,7 @@ export default defineConfig({
     devToolbar: { enabled: false },
     site: 'https://memo.yuzumone.net',
     integrations: [starlight({
-        title: 'memos',
-        logo: {
-            src: './src/assets/logo.svg',
-        },
+        title: '🌱',
         plugins: [
             starlightSiteGraph(),
             starlightImageZoome({
@@ -46,6 +43,7 @@ export default defineConfig({
             PageTitle: './src/components/PageTitle.astro',
         },
         routeMiddleware: './src/routeData.ts',
+        favicon: 'favicon.ico',
         head: [
             {
                 tag: 'meta',
