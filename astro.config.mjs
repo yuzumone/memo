@@ -30,6 +30,14 @@ export default defineConfig({
         favicon: 'favicon.ico',
         head: [
             {
+                tag: 'script',
+                attrs: {
+                    async: true,
+                    crossorigin: 'anonymous',
+                    src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3505762518532398',
+                },
+            },
+            {
                 tag: 'meta',
                 attrs: {
                     name: 'Hatena::Bookmark',
