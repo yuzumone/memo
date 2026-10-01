@@ -21,6 +21,35 @@
 (defun zeeros/fix-doc-path (path)
   (file-name-nondirectory path))
 
+(defun zeeros/hugo-figure-to-markdown-image (output)
+  "Convert an ox-hugo figure shortcode in OUTPUT to a Markdown image.
+
+Starlight does not understand Hugo shortcodes.  Also unwrap a Markdown
+link accidentally embedded in the shortcode's src parameter."
+  (if (and (stringp output)
+           (string-match
+            "\\`{{< figure \\(.+\\) >}}\\'"
+            output))
+      (let* ((params (match-string 1 output))
+             (src (when (string-match "src=\\\"\\([^\\\"]+\\)\\\"" params)
+                    (match-string 1 params)))
+             (alt (when (string-match "alt=\\\"\\([^\\\"]*\\)\\\"" params)
+                    (match-string 1 params)))
+             (title (when (string-match "title=\\\"\\([^\\\"]*\\)\\\"" params)
+                      (match-string 1 params))))
+        (when (and src
+                   (string-match "\\`\\[.*\\](\\([^()]+\\))\\'" src))
+          (setq src (match-string 1 src)))
+        (if src
+            (format "![%s](%s%s)"
+                    (or alt "")
+                    src
+                    (if (org-string-nw-p title)
+                        (format " \"%s\"" title)
+                      ""))
+          output))
+    output))
+
 (defun collect-backlinks-string (backend)
   (when (org-roam-node-at-point)
     (goto-char (point-max))
@@ -83,3 +112,4 @@
 (setopt org-hugo-section "memos")
 (add-hook 'org-export-before-processing-hook 'collect-backlinks-string)
 (advice-add 'org-export-resolve-id-link :filter-return #'zeeros/fix-doc-path)
+(advice-add 'org-hugo-link :filter-return #'zeeros/hugo-figure-to-markdown-image)

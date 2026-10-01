@@ -33,6 +33,22 @@ export default defineConfig({
                 tag: 'script',
                 attrs: {
                     async: true,
+                    src: 'https://www.googletagmanager.com/gtag/js?id=G-M79G32M0Q9',
+                },
+            },
+            {
+                tag: 'script',
+                content: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-M79G32M0Q9');
+                `,
+            },
+            {
+                tag: 'script',
+                attrs: {
+                    async: true,
                     crossorigin: 'anonymous',
                     src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3505762518532398',
                 },

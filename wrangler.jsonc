@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "memo",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "memo.yuzumone.net",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
