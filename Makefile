@@ -1,16 +1,26 @@
-.PHONY: install markdown preview clean
+NOCTL ?= noctl
+NOTION_DATABASE_ID ?= 405931b350248020b169fb6f4abfaf4e
+ARTICLES_DIR ?= content/articles
+LINK_TEMPLATE ?= /articles/{slug}/
 
-install:
-	npm ci
+.PHONY: articles clean export embed
 
-markdown:
-	emacs -Q --batch --load scripts/export.el --funcall export-to-starlight
-
-dist: clean markdown install
-	npm run build
-
-preview: dist
-	npm run preview
+articles:
+	$(MAKE) clean
+	$(MAKE) export
+	$(MAKE) embed
 
 clean:
-	find src/content/docs -type f -name '*.md' -delete
+	mkdir -p '$(ARTICLES_DIR)'
+	find '$(ARTICLES_DIR)' -type f -name '*.md' -delete
+
+export:
+	$(NOCTL) export db '$(NOTION_DATABASE_ID)' --output '$(ARTICLES_DIR)' --link-template '$(LINK_TEMPLATE)'
+
+embed:
+	find '$(ARTICLES_DIR)' -type f -name '*.md' -exec sed -i '' -E \
+		-e '/^ {0,3}`{3,}/,/^ {0,3}`{3,}[[:space:]]*$$/b' \
+		-e '/^ {0,3}~{3,}/,/^ {0,3}~{3,}[[:space:]]*$$/b' \
+		-e 's@^\[([^]"]*)\]\((https?://[^[:space:]"]*)\)$$@{{< embed url="\2" title="\1" >}}@' \
+		-e '/^\{\{< embed /s/[\\][|]/|/g' \
+		-e '/^\{\{< embed /s/[\\]_/_/g' {} +

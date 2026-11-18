@@ -1,0 +1,45 @@
+baseURL = 'https://memo.yuzumone.net/'
+defaultContentLanguage = 'ja'
+locale = 'en-US'
+title = "yuzumone's memo"
+theme = 'yuzumone'
+hasCJKLanguage = true
+enableEmoji = true
+publishDir = 'dist'
+[params]
+mainSections = ['articles']
+toc = true
+favicon = '/favicon.ico'
+[markup.highlight]
+noClasses = false
+[markup.goldmark.renderer]
+unsafe = true
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 5
+[outputs]
+home = ['HTML', 'JSON', 'RSS']
+[[menus.main]]
+name = 'Home'
+pageRef = '/'
+weight = 10
+[[menus.main]]
+name = 'Pin'
+pageRef = '/tokyo_disney_resort_pins'
+weight = 20
+[[menus.main]]
+name = 'Archives'
+pageRef = '/archives'
+weight = 30
+
+[services.googleAnalytics]
+id = 'G-M79G32M0Q9'
+
+[params.googleAdSense]
+client = 'ca-pub-3505762518532398'
+
+[params.ogImage]
+enabled = true
+background = 'images/og-background.png'
+logo = 'images/og-logo.webp'
+font = 'https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsansjp/IBMPlexSansJP-SemiBold.ttf'

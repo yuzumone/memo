@@ -1,0 +1,3 @@
+[submodule "themes/yuzumone"]
+	path = themes/yuzumone
+	url = https://github.com/yuzumone/hugo-yuzumone-theme.git
